@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_practice5/Widgets/supporting_elements.dart';
+import 'package:flutter_practice5/supportingElements/appColors.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,12 +11,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
 
-  List<Color> rabbitColors = [
-    MyColors.mainColor,
+  List<Color> enviromentColors = [
+    MyColors.mainLightGreenColor,
     Colors.black,
     Colors.blue,
     Colors.red,
   ];
+
+  List<String> namesOfRabiit = ["Green", 'Black', 'Blue', 'Red'];
 
   void _changeSelectedIndex(int index) {
     setState(() {
@@ -26,73 +28,23 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final enviromentColor = rabbitColors[selectedIndex];
+    final enviromentColor = enviromentColors[selectedIndex];
     return SafeArea(
       child: Scaffold(
         drawerEnableOpenDragGesture: false,
         appBar: AppBar(
           elevation: 30,
           backgroundColor: enviromentColor,
-          title: const Text('Rabbit'),
+          title: Text('${namesOfRabiit[selectedIndex]} Rabbit'),
           centerTitle: true,
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            showModalBottomSheet<void>(
-                context: context,
-                builder: (BuildContext context) {
-                  return Container(
-                      color: enviromentColor,
-                      height: 200,
-                      width: double.infinity,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text("I am not going to share with you",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white)),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          SizedBox(
-                            height: 100,
-                            width: 100,
-                            child: Image.asset(
-                              'lib/Widgets/assets/icons/free-icon-bunny-1468993.png',
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ));
-                });
-          },
-          backgroundColor: enviromentColor,
-          elevation: 30,
-          child: const Icon(Icons.cruelty_free),
-        ),
+        floatingActionButton:
+            myFloatingButton(enviromentColor: enviromentColor),
         drawer: MyDrawer(bacgraundColor: enviromentColor),
-        bottomNavigationBar: BottomNavigationBar(
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-                backgroundColor: enviromentColor,
-                label: 'Green rabbit',
-                icon: const Icon(Icons.cruelty_free, color: MyColors.mainColor)),
-            BottomNavigationBarItem(
-                backgroundColor: enviromentColor,
-                label: 'Black rabbit',
-                icon: const Icon(Icons.cruelty_free, color: Colors.black)),
-            BottomNavigationBarItem(
-                backgroundColor: enviromentColor,
-                label: 'Blue rabbit',
-                icon: const Icon(Icons.cruelty_free, color: Colors.blue)),
-            BottomNavigationBarItem(
-                backgroundColor: enviromentColor,
-                label: 'Red rabbit',
-                icon: const Icon(Icons.cruelty_free,
-                    color: Colors.red)),
-          ],
-          currentIndex: selectedIndex,
-          onTap: _changeSelectedIndex,
+        bottomNavigationBar: myBottomNabigationBar(
+          enviromentColor: enviromentColor,
+          selectedIndex: selectedIndex,
+          onTapFunction: _changeSelectedIndex,
         ),
         endDrawer: const MyEndDrawer(),
         body: Center(
@@ -112,17 +64,10 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-// ignore: must_be_immutable
-class MyDrawer extends StatefulWidget {
+class MyDrawer extends StatelessWidget {
   MyDrawer({super.key, required this.bacgraundColor});
-  // ignore: prefer_typing_uninitialized_variables
   var bacgraundColor;
 
-  @override
-  State<MyDrawer> createState() => _MyDrawerState();
-}
-
-class _MyDrawerState extends State<MyDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -131,7 +76,7 @@ class _MyDrawerState extends State<MyDrawer> {
           child: Center(
             child: Container(
               decoration: BoxDecoration(
-                  color: widget.bacgraundColor,
+                  color: bacgraundColor,
                   borderRadius: BorderRadius.circular(60)),
               height: 120,
               width: 120,
@@ -173,8 +118,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 navigator.pushReplacementNamed("/LoginPage");
               }),
               style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(widget.bacgraundColor),
+                backgroundColor: MaterialStateProperty.all(bacgraundColor),
                 elevation: MaterialStateProperty.all(25),
                 padding: MaterialStateProperty.all(
                     const EdgeInsets.symmetric(horizontal: 35)),
@@ -184,8 +128,7 @@ class _MyDrawerState extends State<MyDrawer> {
             ElevatedButton(
               onPressed: (() {}),
               style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(widget.bacgraundColor),
+                backgroundColor: MaterialStateProperty.all(bacgraundColor),
                 elevation: MaterialStateProperty.all(25),
                 padding: MaterialStateProperty.all(
                     const EdgeInsets.symmetric(horizontal: 35)),
@@ -211,9 +154,88 @@ class MyEndDrawer extends StatelessWidget {
           height: double.infinity,
           color: Colors.white,
           child: Image.asset(
-            'lib/Widgets/assets/icons/free-icon-bunny-1468950.png',
+            'lib/assets/images/free-icon-bunny-1468950.png',
             color: Colors.red,
           )),
+    );
+  }
+}
+
+class myFloatingButton extends StatelessWidget {
+  const myFloatingButton({super.key, this.enviromentColor});
+  // ignore: prefer_typing_uninitialized_variables
+  final enviromentColor;
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () {
+        showModalBottomSheet<void>(
+            context: context,
+            builder: (BuildContext context) {
+              return Container(
+                  color: enviromentColor,
+                  height: 200,
+                  width: double.infinity,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("I am not going to share with you",
+                          style: TextStyle(fontSize: 20, color: Colors.white)),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        height: 100,
+                        width: 100,
+                        child: Image.asset(
+                          'lib/assets/images/free-icon-bunny-1468993.png',
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ));
+            });
+      },
+      backgroundColor: enviromentColor,
+      elevation: 30,
+      child: const Icon(Icons.cruelty_free),
+    );
+  }
+}
+
+class myBottomNabigationBar extends StatelessWidget {
+  myBottomNabigationBar(
+      {super.key,
+      this.enviromentColor,
+      this.selectedIndex,
+      required this.onTapFunction});
+  final enviromentColor;
+  final selectedIndex;
+  Function(int) onTapFunction;
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+      items: <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+            backgroundColor: enviromentColor,
+            label: 'Green rabbit',
+            icon: const Icon(Icons.cruelty_free,
+                color: MyColors.mainLightGreenColor)),
+        BottomNavigationBarItem(
+            backgroundColor: enviromentColor,
+            label: 'Black rabbit',
+            icon: const Icon(Icons.cruelty_free, color: Colors.black)),
+        BottomNavigationBarItem(
+            backgroundColor: enviromentColor,
+            label: 'Blue rabbit',
+            icon: const Icon(Icons.cruelty_free, color: Colors.blue)),
+        BottomNavigationBarItem(
+            backgroundColor: enviromentColor,
+            label: 'Red rabbit',
+            icon: const Icon(Icons.cruelty_free, color: Colors.red)),
+      ],
+      currentIndex: selectedIndex,
+      onTap: onTapFunction,
     );
   }
 }

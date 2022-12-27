@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-abstract class MyColors {
-  static const mainColor = Color.fromARGB(255, 42, 194, 184);
-}
-
 class TextFieldDecoration {
   TextFieldDecoration(this.labelText, this.labelColor, this.borderColor);
   String labelText;

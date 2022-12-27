@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_practice5/Widgets/home_page.dart';
-import 'package:flutter_practice5/Widgets/supporting_elements.dart';
+import 'package:flutter_practice5/supportingElements/appColors.dart';
+
+import '../supportingElements/commonUsedMethods.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -12,7 +13,7 @@ class LoginPage extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Login to your rabbit page'),
           centerTitle: true,
-          backgroundColor: MyColors.mainColor,
+          backgroundColor: MyColors.mainLightGreenColor,
         ),
         body: const LoginPageBody(),
       ),
@@ -32,31 +33,30 @@ class _LoginPageBodyState extends State<LoginPageBody> {
 
   final _passwordController = TextEditingController();
 
-  Color errorColor = MyColors.mainColor;
-  String? erroeText;
+  Color errorColor = MyColors.mainLightGreenColor;
+  String? errorText;
 
   void Login() {
     final username = _usernameController.text;
     final password = _passwordController.text;
     if (username != '' && password != '') {
-      erroeText = null;
-      errorColor = MyColors.mainColor;
+      errorText = null;
+      errorColor = MyColors.mainLightGreenColor;
 
       if (username == "admin" && password == "12345") {
-        erroeText = null;
-        errorColor = MyColors.mainColor;
+        errorText = null;
+        errorColor = MyColors.mainLightGreenColor;
 
         final navigator = Navigator.of(context);
         navigator.pushReplacementNamed("/HomePage");
-
       } else {
         errorColor = Colors.red;
-        erroeText = "Wrong username or password, try again...";
+        errorText = "Wrong username or password, try again...";
       }
     } else {
-      errorColor = MyColors.mainColor;
+      errorColor = MyColors.mainLightGreenColor;
 
-      erroeText = "Write username and password";
+      errorText = "Write username and password";
     }
     setState(() {});
   }
@@ -66,66 +66,68 @@ class _LoginPageBodyState extends State<LoginPageBody> {
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.cruelty_free,
-              size: 130,
-              color: MyColors.mainColor,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Text(
-              'RABBIT',
-              style: TextStyle(
-                  fontWeight: FontWeight.w900,
-                  fontSize: 30,
-                  color: MyColors.mainColor),
-            ),
-            const SizedBox(
-              height: 60,
-            ),
-            if (erroeText != null) ...[
-              Text(
-                erroeText!,
-                style: const TextStyle(color: Colors.red),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.cruelty_free,
+                size: 130,
+                color: MyColors.mainLightGreenColor,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Text(
+                'RABBIT',
+                style: TextStyle(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 30,
+                    color: MyColors.mainLightGreenColor),
+              ),
+              const SizedBox(
+                height: 60,
+              ),
+              if (errorText != null) ...[
+                Text(
+                  errorText!,
+                  style: const TextStyle(color: Colors.red),
+                ),
+                const SizedBox(
+                  height: 25,
+                )
+              ],
+              TextField(
+                controller: _usernameController,
+                decoration:
+                    TextFieldDecoration("Username", errorColor, errorColor)
+                        .ChangeTextFieldBorderDecoration(),
               ),
               const SizedBox(
                 height: 25,
-              )
+              ),
+              TextField(
+                obscureText: true,
+                controller: _passwordController,
+                decoration:
+                    TextFieldDecoration("Password", errorColor, errorColor)
+                        .ChangeTextFieldBorderDecoration(),
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(MyColors.mainLightGreenColor),
+                    padding: MaterialStateProperty.all(
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    )),
+                onPressed: Login,
+                child: const Text('Login'),
+              ),
             ],
-            TextField(
-              controller: _usernameController,
-              decoration:
-                  TextFieldDecoration("Username", errorColor, errorColor)
-                      .ChangeTextFieldBorderDecoration(),
-            ),
-            const SizedBox(
-              height: 25,
-            ),
-            TextField(
-              obscureText: true,
-              controller: _passwordController,
-              decoration:
-                  TextFieldDecoration("Password", errorColor, errorColor)
-                      .ChangeTextFieldBorderDecoration(),
-            ),
-            const SizedBox(
-              height: 25,
-            ),
-            ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(MyColors.mainColor),
-                  padding: MaterialStateProperty.all(
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                  )),
-              onPressed: Login,
-              child: const Text('Login'),
-            ),
-          ],
+          ),
         ),
       ),
     );
