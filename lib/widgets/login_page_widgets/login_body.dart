@@ -1,51 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_practice5/supportingElements/appColors.dart';
+import 'package:flutter_practice5/supporting_elements/app_colors.dart';
+import 'package:flutter_practice5/supporting_elements/text_field_border_decoration.dart';
 
-import '../supportingElements/commonUsedMethods.dart';
-
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Login to your rabbit page'),
-          centerTitle: true,
-          backgroundColor: MyColors.mainLightGreenColor,
-        ),
-        body: const LoginPageBody(),
-      ),
-    );
-  }
-}
-
-class LoginPageBody extends StatefulWidget {
-  const LoginPageBody({super.key});
+class LoginBody extends StatefulWidget {
+  const LoginBody({super.key});
 
   @override
-  State<LoginPageBody> createState() => _LoginPageBodyState();
+  State<LoginBody> createState() => _LoginBodyState();
 }
 
-class _LoginPageBodyState extends State<LoginPageBody> {
+class _LoginBodyState extends State<LoginBody> {
   final _usernameController = TextEditingController();
 
   final _passwordController = TextEditingController();
 
-  Color errorColor = MyColors.mainLightGreenColor;
+  Color errorColor = AppColors.mainLightGreenColor;
   String? errorText;
 
-  void Login() {
+  void login() {
     final username = _usernameController.text;
     final password = _passwordController.text;
     if (username != '' && password != '') {
       errorText = null;
-      errorColor = MyColors.mainLightGreenColor;
+      errorColor = AppColors.mainLightGreenColor;
 
       if (username == "admin" && password == "12345") {
         errorText = null;
-        errorColor = MyColors.mainLightGreenColor;
+        errorColor = AppColors.mainLightGreenColor;
 
         final navigator = Navigator.of(context);
         navigator.pushReplacementNamed("/HomePage");
@@ -54,7 +35,7 @@ class _LoginPageBodyState extends State<LoginPageBody> {
         errorText = "Wrong username or password, try again...";
       }
     } else {
-      errorColor = MyColors.mainLightGreenColor;
+      errorColor = AppColors.mainLightGreenColor;
 
       errorText = "Write username and password";
     }
@@ -73,7 +54,7 @@ class _LoginPageBodyState extends State<LoginPageBody> {
               const Icon(
                 Icons.cruelty_free,
                 size: 130,
-                color: MyColors.mainLightGreenColor,
+                color: AppColors.mainLightGreenColor,
               ),
               const SizedBox(
                 height: 10,
@@ -83,7 +64,7 @@ class _LoginPageBodyState extends State<LoginPageBody> {
                 style: TextStyle(
                     fontWeight: FontWeight.w900,
                     fontSize: 30,
-                    color: MyColors.mainLightGreenColor),
+                    color: AppColors.mainLightGreenColor),
               ),
               const SizedBox(
                 height: 60,
@@ -99,9 +80,9 @@ class _LoginPageBodyState extends State<LoginPageBody> {
               ],
               TextField(
                 controller: _usernameController,
-                decoration:
-                    TextFieldDecoration("Username", errorColor, errorColor)
-                        .ChangeTextFieldBorderDecoration(),
+                decoration: TextFieldBorderDecoration(
+                        "Username", errorColor, errorColor)
+                    .setTextFieldBorderDecoration(),
               ),
               const SizedBox(
                 height: 25,
@@ -109,21 +90,21 @@ class _LoginPageBodyState extends State<LoginPageBody> {
               TextField(
                 obscureText: true,
                 controller: _passwordController,
-                decoration:
-                    TextFieldDecoration("Password", errorColor, errorColor)
-                        .ChangeTextFieldBorderDecoration(),
+                decoration: TextFieldBorderDecoration(
+                        "Password", errorColor, errorColor)
+                    .setTextFieldBorderDecoration(),
               ),
               const SizedBox(
                 height: 25,
               ),
               ElevatedButton(
                 style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(MyColors.mainLightGreenColor),
+                    backgroundColor: MaterialStateProperty.all(
+                        AppColors.mainLightGreenColor),
                     padding: MaterialStateProperty.all(
                       const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                     )),
-                onPressed: Login,
+                onPressed: login,
                 child: const Text('Login'),
               ),
             ],

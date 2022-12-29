@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class TextFieldDecoration {
-  TextFieldDecoration(this.labelText, this.labelColor, this.borderColor);
+class TextFieldBorderDecoration {
+  TextFieldBorderDecoration(this.labelText, this.labelColor, this.borderColor);
   String labelText;
   Color labelColor;
   Color borderColor;
-  InputDecoration ChangeTextFieldBorderDecoration() {
+  InputDecoration setTextFieldBorderDecoration() {
     var borderDecoration = InputDecoration(
       labelText: labelText,
       labelStyle: TextStyle(color: labelColor),
